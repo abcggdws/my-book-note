@@ -1,25 +1,22 @@
 package com.booknote;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Note {
-    private int noteId;
-    private String content;    // 笔记内容
-    private Date createTime;   // 记录时间
+public class Note implements Serializable {
+    private int id;
+    private String content;
+    private String time;
 
-    public Note(int noteId, String content) {
-        this.noteId = noteId;
+    public Note(int id, String content) {
+        this.id = id;
         this.content = content;
-        this.createTime = new Date();
+        this.time = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
     }
 
-    public int getNoteId() { return noteId; }
+    public int getId() { return id; }
     public String getContent() { return content; }
+    public String getTime() { return time; }
     public void setContent(String content) { this.content = content; }
-    public Date getCreateTime() { return createTime; }
-
-    @Override
-    public String toString() {
-        return "笔记" + noteId + " | " + createTime + "\n内容：" + content;
-    }
 }

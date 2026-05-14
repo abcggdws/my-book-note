@@ -1,60 +1,53 @@
 package com.booknote;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Book {
-    private String bookId;
-    private String name;     // 书名
-    private String author;   // 作者
-    private String status;   // 未读 / 在读 / 已读
-    private List<Note> noteList = new ArrayList<>();
-    private int noteCount = 1;
+public class Book implements Serializable {
+    private String id;
+    private String name;
+    private String author;
+    private String category;
+    private String status;
+    private int totalPage;
+    private int readPage;
+    private double score;
+    private List<Note> notes = new ArrayList<>();
+    private int noteId = 1;
 
-    public Book(String bookId, String name, String author) {
-        this.bookId = bookId;
+    public Book(String id, String name, String author, String category, int totalPage) {
+        this.id = id;
         this.name = name;
         this.author = author;
+        this.category = category;
+        this.totalPage = totalPage;
         this.status = "未读";
+        this.readPage = 0;
     }
 
-    // 添加笔记
     public void addNote(String content) {
-        noteList.add(new Note(noteCount++, content));
+        notes.add(new Note(noteId++, content));
     }
 
-    // 删除笔记
-    public boolean deleteNote(int noteId) {
-        return noteList.removeIf(n -> n.getNoteId() == noteId);
-    }
-
-    // 修改笔记
-    public boolean updateNote(int noteId, String newContent) {
-        for (Note n : noteList) {
-            if (n.getNoteId() == noteId) {
-                n.setContent(newContent);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // 查看所有笔记
-    public List<Note> getNoteList() {
-        return noteList;
-    }
-
-    // getter setter
-    public String getBookId() { return bookId; }
+    public List<Note> getNotes() { return notes; }
+    public String getId() { return id; }
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
     public String getAuthor() { return author; }
-    public void setAuthor(String author) { this.author = author; }
+    public String getCategory() { return category; }
     public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public int getTotalPage() { return totalPage; }
+    public int getReadPage() { return readPage; }
+    public double getScore() { return score; }
 
-    @Override
-    public String toString() {
-        return "【" + bookId + "】《" + name + "》 作者：" + author + " 状态：" + status + " | 笔记数：" + noteList.size();
+    public void setReadPage(int readPage) {
+        this.readPage = readPage;
+        if (readPage >= totalPage) status = "已读";
+        else if (readPage > 0) status = "在读";
     }
+
+    public void setScore(double score) { this.score = score; }
+    public void setName(String name) { this.name = name; }
+    public void setAuthor(String author) { this.author = author; }
+    public void setCategory(String category) { this.category = category; }
 }
